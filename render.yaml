@@ -1,0 +1,19 @@
+# render.yaml
+# Configuration for deploying the WhatsApp bot on Render
+
+services:
+  - type: web # Use 'web' for long-running Node.js services, even bots
+    name: whatsapp-bot-luvane
+    env: node
+    plan: free # Specify the free instance type
+    buildCommand: "npm install"
+    startCommand: "npm run start"
+    healthCheckPath: / # Render requires a health check path for web services, even if not a real web server. This might need adjustment if it causes issues.
+    envVars:
+      - key: NODE_VERSION
+        value: 20 # Specify Node.js version (optional but good practice)
+    disks:
+      - name: whatsapp-session-data
+        mountPath: /data/whatsapp-session # Mount path for the session data
+        sizeGB: 1 # Smallest size usually sufficient for session files
+
